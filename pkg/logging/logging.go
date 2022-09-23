@@ -7,6 +7,7 @@ import (
 	"os"
 	"path"
 	"runtime"
+	"time"
 )
 
 type writerHook struct {
@@ -26,7 +27,7 @@ func (hook *writerHook) Fire(entry *logrus.Entry) error {
 }
 
 func (hook *writerHook) Levels() []logrus.Level {
-	return hook.Levels()
+	return hook.LogLevels
 }
 
 var e *logrus.Entry
@@ -55,16 +56,17 @@ func init() {
 		FullTimestamp: true,
 	}
 	//add data as id
-	err := os.MkdirAll("logs", 0644)
+	err := os.MkdirAll("logs", os.ModePerm)
 	if err != nil {
 		panic(err)
 	} // directory has been created
 
-	allFile, err := os.OpenFile("logs/all.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0640)
+	allFile, err := os.OpenFile("logs/all_"+time.Now().Format("01-02-2006")+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
 	if err != nil {
 		panic(err)
 	}
 	l.SetOutput(io.Discard)
+
 	l.AddHook(&writerHook{
 		Writer:    []io.Writer{allFile, os.Stdout},
 		LogLevels: logrus.AllLevels,

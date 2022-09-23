@@ -7,8 +7,6 @@ import (
 	"restApi/internal/user"
 	"restApi/pkg/logging"
 	"time"
-
-	"fmt" // to delete
 )
 
 func main() {
@@ -21,8 +19,6 @@ func main() {
 	handler.Register(router)
 
 	start(router)
-
-	fmt.Print("hello")
 }
 
 func start(router *httprouter.Router) {

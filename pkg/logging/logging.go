@@ -56,12 +56,12 @@ func init() {
 		FullTimestamp: true,
 	}
 	//add data as id
-	err := os.MkdirAll("logs", os.ModeDir)
+	err := os.MkdirAll("logs", os.ModePerm)
 	if err != nil {
 		panic(err)
 	} // directory has been created
 
-	allFile, err := os.OpenFile("logs/all_"+time.Now().Format("01-02-2006")+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, os.ModePerm)
+	allFile, err := os.OpenFile("logs/all_"+time.Now().Format("01-02-2006")+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
 	if err != nil {
 		panic(err)
 	}
